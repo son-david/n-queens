@@ -184,7 +184,8 @@
 
     hasDiagonalValue: function(row, column) {
       var count = 0;
-      for(var i = row -1 , j = column -1 ; i >= 0 && j >= 0; i--, j--) {
+      for(var i = row -1 , j = column -1 
+        ; i >= 0 && j >= 0; i--, j--) {
         if (this.get(i)[j] === 1) {
           count++;
         }
