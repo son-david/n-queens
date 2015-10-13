@@ -182,14 +182,14 @@
     },
 
 
-    hasDiagonalConflict: function(row, column) {
+    hasDiagonalValue: function(row, column) {
       var count = 0;
-      for(var i = row, j = column; i >=0 && j >= 0; i--, j--) {
+      for(var i = row -1 , j = column -1 ; i >= 0 && j >= 0; i--, j--) {
         if (this.get(i)[j] === 1) {
           count++;
         }
       }
-      for(i = row, j = column; i >= 0 && j < this.get("n"); i--, j++) {
+      for(i = row - 1 , j = column +1; i >= 0 && j < this.get("n"); i--, j++) {
         if (this.get(i)[j] === 1) {
           count++;
         }
@@ -220,6 +220,16 @@
         }
       }
       return count >0;
+    },
+
+    isSafe : function(board,rowIndex,colIndex) {
+      if (hasColValue(colIndex)){
+        return false;
+      }
+      if (hasDiagonalConflict(rowIndex,colIndex)) {
+        return false;
+      }
+
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/

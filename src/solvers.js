@@ -43,14 +43,27 @@ window.countNRooksSolutions = function(n) {
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
   var solution = new Board({n:n}); //fixme
+  var row = 0;
 
-  for(var i = 0; i < n; i++){
-    for(var j = 0; j < n; j++){
-      if(!solution.hasRowValue(i) && !solution.hasColValue(j) && !solution.hasDiagonalConflict(i, j)){
-        solution.togglePiece(i, j);
+  var recurse =  function(board, row) {
+    if (row === n) {
+      return;
+    }
+    for (var i =0; i < n; i++) { //every column
+      if (!board.hasColValue(i) && !board.hasDiagonalValue(row, i)) {
+        board.togglePiece(row, i);
+        if (i === n -1 && row === n-1) {
+          return board;
+        }
+        recurse(board, row + 1);
+        board.togglePiece(row, i);
+        
       }
     }
+    row--;
+    return;
   }
+  recurse(solution, row);
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution.rows();
@@ -58,8 +71,29 @@ window.findNQueensSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solution = undefined; //fixme
+  var solution = new Board({n:n});
+  if (n === 0) {
+    return 1;
+  }
+  var count = 0;
+  var recurse =  function(board, row) {
+    // if (row === n) {
+    //   return;
+    // }
+    for (var i =0; i < n; i++) { //every column
+      if (!board.hasColValue(i) && !board.hasDiagonalValue(row, i)) {
+        board.togglePiece(row, i);
+        if (row === n-1) {
+          count++;
+        } 
+        recurse(board, row +1);
+        board.togglePiece(row, i);
+      }
+    }
+    // return;
+  }
+  recurse(solution, 0);
 
-  console.log('Number of solutions for ' + n + ' queens:', solutionCount);
-  return solutionCount;
+  console.log('Number of solutions for ' + n + ' queens:', count);
+  return count;
 };
