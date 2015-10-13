@@ -119,11 +119,9 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      var rows = this.rows();
       var count = 0;
-      for(var i = 0; i < rows.length; i++){
-        row = rows[i];
-        if(row[colIndex] === 1){
+      for(var i = 0; i < this.get('n'); i++){
+        if(this.get(i)[colIndex] === 1){
           count++;
         }
       }
@@ -146,7 +144,7 @@
     hasAnyColConflicts: function() {
       var rows = this.rows();
       var count = 0;
-      for(var i = 0; i < rows[0].length; i++){
+      for(var i = 0; i < this.get("n"); i++){
         if(this.hasColConflictAt(i)){
           count++;
         }
